@@ -1,7 +1,9 @@
 <?php
 
-namespace VendorName\Skeleton\Tests;
+namespace BlackpigCreatif\Replique\Tests;
 
+use BlackpigCreatif\Replique\RepliqueServiceProvider;
+use BlackpigCreatif\Replique\Tests\Support\TestPanelProvider;
 use BladeUI\Heroicons\BladeHeroiconsServiceProvider;
 use BladeUI\Icons\BladeIconsServiceProvider;
 use Filament\Actions\ActionsServiceProvider;
@@ -19,7 +21,6 @@ use Livewire\LivewireServiceProvider;
 use Orchestra\Testbench\Concerns\WithWorkbench;
 use Orchestra\Testbench\TestCase as Orchestra;
 use RyanChandler\BladeCaptureDirective\BladeCaptureDirectiveServiceProvider;
-use VendorName\Skeleton\SkeletonServiceProvider;
 
 class TestCase extends Orchestra
 {
@@ -31,7 +32,7 @@ class TestCase extends Orchestra
         parent::setUp();
 
         Factory::guessFactoryNamesUsing(
-            fn (string $modelName) => 'VendorName\\Skeleton\\Database\\Factories\\' . class_basename($modelName) . 'Factory'
+            fn (string $modelName) => 'BlackpigCreatif\\Replique\\Database\\Factories\\' . class_basename($modelName) . 'Factory'
         );
     }
 
@@ -50,8 +51,9 @@ class TestCase extends Orchestra
             SchemasServiceProvider::class,
             SupportServiceProvider::class,
             TablesServiceProvider::class,
+            TestPanelProvider::class,
             WidgetsServiceProvider::class,
-            SkeletonServiceProvider::class,
+            RepliqueServiceProvider::class,
         ];
 
         sort($providers);
@@ -62,10 +64,19 @@ class TestCase extends Orchestra
     public function getEnvironmentSetUp($app): void
     {
         $app['config']->set('database.default', 'testing');
+        $app['config']->set('app.key', 'base64:' . base64_encode(random_bytes(32)));
     }
 
     protected function defineDatabaseMigrations(): void
     {
         $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
+        $this->loadMigrationsFrom(__DIR__ . '/../vendor/orchestra/testbench-core/laravel/migrations');
+
+        // test_posts table for CommentsRelationManager tests
+        $this->app['db']->connection()->getSchemaBuilder()->create('test_posts', function (\Illuminate\Database\Schema\Blueprint $table): void {
+            $table->id();
+            $table->string('title')->default('Test Post');
+            $table->timestamps();
+        });
     }
 }

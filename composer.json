@@ -1,36 +1,39 @@
 {
-    "name": ":vendor_slug/:package_slug",
-    "description": ":package_description",
+    "name": "blackpig-creatif/replique",
+    "description": "A Laravel package to add comments to models with a Filament integration",
     "keywords": [
-        ":vendor_name",
+        "BlackpigCreatif",
         "laravel",
         "filamentphp",
         "filament",
         "filament-plugin",
-        ":package_slug"
+        "replique"
     ],
-    "homepage": "https://github.com/:vendor_slug/:package_slug",
+    "homepage": "https://github.com/blackpig/replique",
     "support": {
-        "issues": "https://github.com/:vendor_slug/:package_slug/issues",
-        "source": "https://github.com/:vendor_slug/:package_slug"
+        "issues": "https://github.com/blackpig/replique/issues",
+        "source": "https://github.com/blackpig/replique"
     },
     "license": "MIT",
     "authors": [
         {
-            "name": ":author_name",
-            "email": "author@domain.com",
+            "name": "Blackpig Creatif",
+            "email": "stuart@blackpig.eu",
             "role": "Developer"
         }
     ],
     "require": {
         "php": "^8.2",
+        "blackpig-creatif/grimoire": "^1.0",
         "filament/filament": "^5.0",
-        "filament/forms": "^5.0",
-        "filament/tables": "^5.0",
+        "livewire/livewire": "^3.0|^4.0",
+        "spatie/laravel-honeypot": "^4.0",
         "spatie/laravel-package-tools": "^1.15.0"
     },
+    "suggest": {
+        "league/commonmark": "Required for Markdown text mode (^2.0)"
+    },
     "require-dev": {
-        "larastan/larastan": "^3.0",
         "laravel/pint": "^1.0",
         "nunomaduro/collision": "^8.0",
         "orchestra/testbench": "^9.0|^10.0",
@@ -43,18 +46,17 @@
     },
     "autoload": {
         "psr-4": {
-            "VendorName\\Skeleton\\": "src/",
-            "VendorName\\Skeleton\\Database\\Factories\\": "database/factories/"
+            "BlackpigCreatif\\Replique\\": "src/",
+            "BlackpigCreatif\\Replique\\Database\\Factories\\": "database/factories/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "VendorName\\Skeleton\\Tests\\": "tests/"
+            "BlackpigCreatif\\Replique\\Tests\\": "tests/"
         }
     },
     "scripts": {
         "post-autoload-dump": "@php ./vendor/bin/testbench package:discover --ansi",
-        "analyse": "phpstan analyse",
         "lint": "pint",
         "refactor": "rector",
         "test": "pest",
@@ -64,10 +66,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "VendorName\\Skeleton\\SkeletonServiceProvider"
+                "BlackpigCreatif\\Replique\\RepliqueServiceProvider"
             ],
             "aliases": {
-                "Skeleton": "VendorName\\Skeleton\\Facades\\Skeleton"
+                "Replique": "BlackpigCreatif\\Replique\\Facades\\Replique"
             }
         }
     },
