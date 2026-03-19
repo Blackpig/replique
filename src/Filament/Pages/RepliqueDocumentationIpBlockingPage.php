@@ -10,6 +10,8 @@ use BlackpigCreatif\Replique\Filament\Clusters\RepliqueDocumentationCluster;
 final class RepliqueDocumentationIpBlockingPage extends GrimoireChapterPage
 {
     public static string $tomeId = 'replique';
+
     public static string $chapterSlug = 'ip-blocking';
+
     protected static ?string $cluster = RepliqueDocumentationCluster::class;
 }

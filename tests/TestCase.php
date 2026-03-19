@@ -16,6 +16,7 @@ use Filament\Support\SupportServiceProvider;
 use Filament\Tables\TablesServiceProvider;
 use Filament\Widgets\WidgetsServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use Livewire\LivewireServiceProvider;
 use Orchestra\Testbench\Concerns\WithWorkbench;
@@ -73,7 +74,7 @@ class TestCase extends Orchestra
         $this->loadMigrationsFrom(__DIR__ . '/../vendor/orchestra/testbench-core/laravel/migrations');
 
         // test_posts table for CommentsRelationManager tests
-        $this->app['db']->connection()->getSchemaBuilder()->create('test_posts', function (\Illuminate\Database\Schema\Blueprint $table): void {
+        $this->app['db']->connection()->getSchemaBuilder()->create('test_posts', function (Blueprint $table): void {
             $table->id();
             $table->string('title')->default('Test Post');
             $table->timestamps();

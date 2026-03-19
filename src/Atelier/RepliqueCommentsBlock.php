@@ -3,6 +3,7 @@
 namespace BlackpigCreatif\Replique\Atelier;
 
 use BlackpigCreatif\Atelier\Abstracts\BaseBlock;
+use BlackpigCreatif\Atelier\Models\AtelierBlock;
 use BlackpigCreatif\Replique\Enums\TextMode;
 use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\Select;
@@ -48,8 +49,8 @@ class RepliqueCommentsBlock extends BaseBlock
             Select::make('nesting_depth')
                 ->label('Reply depth')
                 ->options([
-                    '0'         => 'Flat (no replies)',
-                    '1'         => 'One level of replies',
+                    '0' => 'Flat (no replies)',
+                    '1' => 'One level of replies',
                     'unlimited' => 'Unlimited depth',
                 ])
                 ->default(fn (): string => config('replique.nesting_depth') === null ? 'unlimited' : (string) config('replique.nesting_depth', '1'))
@@ -102,18 +103,18 @@ class RepliqueCommentsBlock extends BaseBlock
 
     private function resolveModel(): ?object
     {
-        return \BlackpigCreatif\Atelier\Models\AtelierBlock::find($this->blockId)?->blockable;
+        return AtelierBlock::find($this->blockId)?->blockable;
     }
 
     private function isFirstBlockForModel(): bool
     {
-        $current = \BlackpigCreatif\Atelier\Models\AtelierBlock::find($this->blockId);
+        $current = AtelierBlock::find($this->blockId);
 
         if (! $current) {
             return true;
         }
 
-        $firstId = \BlackpigCreatif\Atelier\Models\AtelierBlock::where('block_type', static::class)
+        $firstId = AtelierBlock::where('block_type', static::class)
             ->where('blockable_type', $current->blockable_type)
             ->where('blockable_id', $current->blockable_id)
             ->orderBy('id')

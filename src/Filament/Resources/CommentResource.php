@@ -6,6 +6,7 @@ use BackedEnum;
 use BlackpigCreatif\Replique\Enums\CommentStatus;
 use BlackpigCreatif\Replique\Enums\TextMode;
 use BlackpigCreatif\Replique\Events\CommentPosted;
+use BlackpigCreatif\Replique\Facades\Replique;
 use BlackpigCreatif\Replique\Filament\Concerns\HasCommentAncestry;
 use BlackpigCreatif\Replique\Filament\Resources\CommentResource\Pages\ListComments;
 use BlackpigCreatif\Replique\Models\Comment;
@@ -18,6 +19,7 @@ use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
+use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\RestoreAction;
 use Filament\Actions\RestoreBulkAction;
@@ -50,6 +52,7 @@ use UnitEnum;
 class CommentResource extends Resource
 {
     use HasCommentAncestry;
+
     protected static ?string $model = Comment::class;
 
     protected static ?string $recordTitleAttribute = 'text';
@@ -299,7 +302,8 @@ class CommentResource extends Resource
                         fn (Comment $record): string => $record->parent_id ? '↩ #' . $record->parent_id : '—'
                     )
                     ->color(fn (Comment $record): string => $record->parent_id ? 'primary' : 'gray')
-                    ->tooltip(fn (Comment $record): ?string => $record->parent_id
+                    ->tooltip(
+                        fn (Comment $record): ?string => $record->parent_id
                         ? Str::limit(strip_tags($record->parent?->text ?? ''), 100)
                         : null
                     ),
@@ -478,7 +482,7 @@ class CommentResource extends Resource
 
                     RestoreBulkAction::make(),
 
-                    \Filament\Actions\DeleteBulkAction::make(),
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }
@@ -572,7 +576,7 @@ class CommentResource extends Resource
             )
             ->modalSubmitActionLabel('Block IP')
             ->action(function (Comment $record, array $data): void {
-                \BlackpigCreatif\Replique\Facades\Replique::blockIp(
+                Replique::blockIp(
                     $record->ip_address,
                     reason: $data['reason'] ?? null,
                 );

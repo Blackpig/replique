@@ -2,6 +2,7 @@
 
 namespace BlackpigCreatif\Replique;
 
+use BlackpigCreatif\Grimoire\Facades\Grimoire;
 use BlackpigCreatif\Replique\Filament\Clusters\RepliqueDocumentationCluster;
 use BlackpigCreatif\Replique\Filament\Resources\CommentResource;
 use BlackpigCreatif\Replique\Filament\Widgets\PendingCommentsWidget;
@@ -69,8 +70,8 @@ class RepliquePlugin implements Plugin
             $panel->widgets([PendingCommentsWidget::class]);
         }
 
-        if (class_exists(\BlackpigCreatif\Grimoire\Facades\Grimoire::class)) {
-            \BlackpigCreatif\Grimoire\Facades\Grimoire::registerTome(
+        if (class_exists(Grimoire::class)) {
+            Grimoire::registerTome(
                 id: 'replique',
                 label: 'Comments',
                 icon: 'heroicon-o-chat-bubble-left-right',
@@ -91,7 +92,5 @@ class RepliquePlugin implements Plugin
         }
     }
 
-    public function boot(Panel $panel): void
-    {
-    }
+    public function boot(Panel $panel): void {}
 }

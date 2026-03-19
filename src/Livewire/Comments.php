@@ -4,15 +4,19 @@ namespace BlackpigCreatif\Replique\Livewire;
 
 use BlackpigCreatif\Replique\Enums\CommentStatus;
 use BlackpigCreatif\Replique\Enums\TextMode;
+use BlackpigCreatif\Replique\Events\CommentPosted;
 use BlackpigCreatif\Replique\Models\BlockedIp;
 use BlackpigCreatif\Replique\Models\Comment;
 use BlackpigCreatif\Replique\Sanitisers\InjectionSanitiser;
 use BlackpigCreatif\Replique\Sanitisers\TextSanitiser;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\View\View;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
+use Spatie\Honeypot\SpamException;
+use Spatie\Honeypot\SpamProtection;
 
 class Comments extends Component
 {
@@ -117,10 +121,10 @@ class Comments extends Component
         $isHoneypotSpam = false;
 
         // Honeypot check — silently mark as spam rather than rejecting
-        if (class_exists(\Spatie\Honeypot\SpamProtection::class)) {
+        if (class_exists(SpamProtection::class)) {
             try {
-                app(\Spatie\Honeypot\SpamProtection::class)->check(request()->all());
-            } catch (\Spatie\Honeypot\SpamException $e) {
+                app(SpamProtection::class)->check(request()->all());
+            } catch (SpamException $e) {
                 $isHoneypotSpam = true;
             }
         }
@@ -202,7 +206,7 @@ class Comments extends Component
 
         $comment->save();
 
-        \BlackpigCreatif\Replique\Events\CommentPosted::dispatch($comment);
+        CommentPosted::dispatch($comment);
 
         $this->commentText = '';
         $this->anonymousEmail = null;
@@ -243,7 +247,7 @@ class Comments extends Component
         unset($this->comments);
     }
 
-    public function render(): \Illuminate\View\View
+    public function render(): View
     {
         return view('replique::livewire.comments');
     }

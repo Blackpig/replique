@@ -2,6 +2,8 @@
 
 namespace BlackpigCreatif\Replique;
 
+use BlackpigCreatif\Atelier\AtelierServiceProvider;
+use BlackpigCreatif\Replique\Atelier\RepliqueCommentsBlock;
 use BlackpigCreatif\Replique\Commands\DiscoverCommentablesCommand;
 use BlackpigCreatif\Replique\Events\CommentPosted;
 use BlackpigCreatif\Replique\Listeners\SendNewCommentNotification;
@@ -41,7 +43,7 @@ class RepliqueServiceProvider extends PackageServiceProvider
             Livewire::addNamespace('replique', classNamespace: 'BlackpigCreatif\\Replique\\Livewire');
         });
 
-        Blade::anonymousComponentPath(__DIR__.'/../resources/views/components', 'replique');
+        Blade::anonymousComponentPath(__DIR__ . '/../resources/views/components', 'replique');
 
         /** @var CommentableRegistry $registry */
         $registry = $this->app->make(CommentableRegistry::class);
@@ -55,7 +57,7 @@ class RepliqueServiceProvider extends PackageServiceProvider
             }
         });
 
-        if (class_exists(\BlackpigCreatif\Atelier\AtelierServiceProvider::class)) {
+        if (class_exists(AtelierServiceProvider::class)) {
             $this->registerAtelierBlock();
         }
     }
@@ -65,7 +67,7 @@ class RepliqueServiceProvider extends PackageServiceProvider
         config([
             'atelier.blocks' => array_merge(
                 config('atelier.blocks', []),
-                [\BlackpigCreatif\Replique\Atelier\RepliqueCommentsBlock::class],
+                [RepliqueCommentsBlock::class],
             ),
         ]);
     }

@@ -10,6 +10,8 @@ use BlackpigCreatif\Replique\Filament\Clusters\RepliqueDocumentationCluster;
 final class RepliqueDocumentationDashboardWidgetPage extends GrimoireChapterPage
 {
     public static string $tomeId = 'replique';
+
     public static string $chapterSlug = 'dashboard-widget';
+
     protected static ?string $cluster = RepliqueDocumentationCluster::class;
 }

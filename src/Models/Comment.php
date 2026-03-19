@@ -10,6 +10,7 @@ use BlackpigCreatif\Replique\Events\CommentApproved;
 use BlackpigCreatif\Replique\Events\CommentMarkedAsSpam;
 use BlackpigCreatif\Replique\Events\CommentRejected;
 use BlackpigCreatif\Replique\Events\ReactionToggled;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -165,17 +166,17 @@ class Comment extends Model
             ->toArray();
     }
 
-    public function scopeApproved(\Illuminate\Database\Eloquent\Builder $query): \Illuminate\Database\Eloquent\Builder
+    public function scopeApproved(Builder $query): Builder
     {
         return $query->where('status', CommentStatus::Approved);
     }
 
-    public function scopeTopLevel(\Illuminate\Database\Eloquent\Builder $query): \Illuminate\Database\Eloquent\Builder
+    public function scopeTopLevel(Builder $query): Builder
     {
         return $query->whereNull('parent_id');
     }
 
-    public function scopePending(\Illuminate\Database\Eloquent\Builder $query): \Illuminate\Database\Eloquent\Builder
+    public function scopePending(Builder $query): Builder
     {
         return $query->where('status', CommentStatus::Pending);
     }

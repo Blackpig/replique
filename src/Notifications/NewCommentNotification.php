@@ -7,6 +7,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Str;
 
 class NewCommentNotification extends Notification implements ShouldQueue
 {
@@ -31,7 +32,7 @@ class NewCommentNotification extends Notification implements ShouldQueue
         return (new MailMessage)
             ->subject('New comment posted')
             ->line("{$commentatorLabel} posted a new comment:")
-            ->line('"' . \Illuminate\Support\Str::limit(strip_tags($this->comment->text), 200) . '"')
+            ->line('"' . Str::limit(strip_tags($this->comment->text), 200) . '"')
             ->when(
                 $this->comment->status->value === 'pending',
                 fn (MailMessage $mail): MailMessage => $mail->line('This comment is awaiting your approval.'),

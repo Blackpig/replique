@@ -10,6 +10,8 @@ use BlackpigCreatif\Replique\Filament\Clusters\RepliqueDocumentationCluster;
 final class RepliqueDocumentationRelationManagerPage extends GrimoireChapterPage
 {
     public static string $tomeId = 'replique';
+
     public static string $chapterSlug = 'relation-manager';
+
     protected static ?string $cluster = RepliqueDocumentationCluster::class;
 }
