@@ -2,6 +2,7 @@
 
 namespace BlackpigCreatif\Replique\Tests;
 
+use BlackpigCreatif\Grimoire\GrimoireServiceProvider;
 use BlackpigCreatif\Replique\RepliqueServiceProvider;
 use BlackpigCreatif\Replique\Tests\Support\TestPanelProvider;
 use BladeUI\Heroicons\BladeHeroiconsServiceProvider;
@@ -46,6 +47,7 @@ class TestCase extends Orchestra
             BladeIconsServiceProvider::class,
             FilamentServiceProvider::class,
             FormsServiceProvider::class,
+            GrimoireServiceProvider::class,
             InfolistsServiceProvider::class,
             LivewireServiceProvider::class,
             NotificationsServiceProvider::class,

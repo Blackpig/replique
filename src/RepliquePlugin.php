@@ -3,7 +3,6 @@
 namespace BlackpigCreatif\Replique;
 
 use BlackpigCreatif\Grimoire\Facades\Grimoire;
-use BlackpigCreatif\Replique\Filament\Clusters\RepliqueDocumentationCluster;
 use BlackpigCreatif\Replique\Filament\Resources\CommentResource;
 use BlackpigCreatif\Replique\Filament\Widgets\PendingCommentsWidget;
 use Filament\Contracts\Plugin;
@@ -70,16 +69,8 @@ class RepliquePlugin implements Plugin
             $panel->widgets([PendingCommentsWidget::class]);
         }
 
+        // The Tome itself is registered once in RepliqueServiceProvider; register() runs per panel.
         if (class_exists(Grimoire::class)) {
-            Grimoire::registerTome(
-                id: 'replique',
-                label: 'Comments',
-                icon: 'heroicon-o-chat-bubble-left-right',
-                path: dirname(__DIR__) . '/resources/grimoire/replique',
-                clusterClass: RepliqueDocumentationCluster::class,
-                slug: 'replique',
-            );
-
             $panel->discoverClusters(
                 in: __DIR__ . '/Filament/Clusters',
                 for: 'BlackpigCreatif\\Replique\\Filament\\Clusters',

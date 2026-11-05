@@ -3,9 +3,11 @@
 namespace BlackpigCreatif\Replique;
 
 use BlackpigCreatif\Atelier\AtelierServiceProvider;
+use BlackpigCreatif\Grimoire\Facades\Grimoire;
 use BlackpigCreatif\Replique\Atelier\RepliqueCommentsBlock;
 use BlackpigCreatif\Replique\Commands\DiscoverCommentablesCommand;
 use BlackpigCreatif\Replique\Events\CommentPosted;
+use BlackpigCreatif\Replique\Filament\Clusters\RepliqueDocumentationCluster;
 use BlackpigCreatif\Replique\Listeners\SendNewCommentNotification;
 use BlackpigCreatif\Replique\Registry\CommentableRegistry;
 use Illuminate\Console\Events\CommandStarting;
@@ -59,6 +61,17 @@ class RepliqueServiceProvider extends PackageServiceProvider
 
         if (class_exists(AtelierServiceProvider::class)) {
             $this->registerAtelierBlock();
+        }
+
+        if (class_exists(Grimoire::class)) {
+            Grimoire::registerTome(
+                id: 'replique',
+                label: 'Comments',
+                icon: 'heroicon-o-chat-bubble-left-right',
+                path: dirname(__DIR__) . '/resources/grimoire/replique',
+                clusterClass: RepliqueDocumentationCluster::class,
+                slug: 'replique',
+            );
         }
     }
 
